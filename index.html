@@ -15,6 +15,34 @@
       overflow-x: hidden;
     }
 
+    /* --- Bouton Ambiance --- */
+   #playChant {
+      background: linear-gradient(135deg, #e30613, #1d5fc1);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      transition: all 0.25s ease-in-out;
+      position: fixed;
+      top: 4rem; /* en dessous de la marquee et du header */
+      left: 1rem;
+      z-index: 1000;
+    }
+
+    #playChant:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    }
+
+    #playChant:active {
+      transform: scale(0.97);
+    }
+
     /* --- Structure principale --- */
     body {
       display: flex;
@@ -103,18 +131,51 @@
       margin: 0 auto;
       padding: 2rem 1rem;
       box-sizing: border-box;
-      /* suppression du overflow-y:auto -> la page entière scrolle si nécessaire */
     }
 
-    .final-score {
-      font-size: 2.5rem;
-      color: #ffffff;
-      text-align: center;
-      text-shadow: 2px 6px 20px #576090;
+    /* --- Nouveau tableau de score style TV --- */
+    .scoreboard {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(145deg, #0a1633, #1b2b4a);
+      border-radius: 50px;
+      padding: 12px 25px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      margin: 10px auto;
+      width: fit-content;
+      gap: 50px;
       font-family: 'Montserrat', sans-serif;
-      letter-spacing: 2.1px;
-      margin-top: 1.7rem;
-      margin-bottom: 1rem;
+    }
+
+    .scoreboard .team {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .scoreboard .team.right {
+      flex-direction: row-reverse; /* logo à droite */
+    }
+
+    .scoreboard .logo {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #fff;
+      padding: 5px;
+      box-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+
+    .scoreboard .score {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffd100;
+      text-shadow: 0 0 12px rgba(255, 209, 0, 0.7);
     }
 
     /* --- Cartes des buteurs --- */
@@ -225,10 +286,21 @@
   <div class="subtitle">Vainqueur de la Ligue des Champions 2025</div>
 
   <main>
-    <div class="final-score">
-      PSG 5 <span style="color:#1d2537;">-</span> 0 Inter Milan
+    <button id="playChant">🔊 Ambiance Parc des Princes</button>
+
+    <!-- NOUVEAU TABLEAU DE SCORE -->
+    <div class="scoreboard">
+      <div class="team left">
+        <img src="psg.png" alt="PSG" class="logo">
+        <span class="team-name">PSG</span>
+      </div>
+      <div class="score">5 - 0</div>
+      <div class="team right">
+        <span class="team-name">Inter</span>
+        <img src="inter.png" alt="Inter" class="logo">
+      </div>
     </div>
-    
+
     <section class="scorers">
       <div class="goal-card">
         <a href="https://youtu.be/-Hf2n3S3Rew?t=12" target="_blank">
@@ -295,6 +367,23 @@
     setInterval(createConfetti, 130);
     for(let i=0;i<23;i++) setTimeout(createConfetti,80*i);
   </script>
+
+  <!-- Script lecteur audio -->
+  <script>
+    const audio = new Audio("chant.m4a");
+    let playing = false;
+
+    document.getElementById("playChant").onclick = () => {
+      if (!playing) {
+        audio.play();
+        document.getElementById("playChant").innerText = "⏸️ Stopper le chant";
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+        document.getElementById("playChant").innerText = "🔊 Ambiance Parc des Princes";
+      }
+      playing = !playing;
+    };
+  </script>
 </body>
 </html>
-
