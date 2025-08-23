@@ -27,41 +27,6 @@ body{
 img{max-width:100%; display:block}
 
 .marquee {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #002147; /* bleu PSG */
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: bold;
-  overflow: hidden;
-  z-index: 1000;
-  height: 40px;
-  display: flex;
-  align-items: center;
-}
-
-.marquee p {
-  display: inline-block;
-  white-space: nowrap;
-  padding-left: 100%;
-  animation: marquee 12s linear infinite;
-}
-
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-
-/* ========= Layout Containers ========= */
-.container{
-  width:min(1100px, 92vw);
-  margin-inline:auto;
-}
-
-.marquee {
   position: relative; /* plus fixed */
   width: 100%;
   background: var(--psg-blue); 
@@ -91,6 +56,13 @@ img{max-width:100%; display:block}
 .site-header {
   top: 0; /* si sticky, sinon pas besoin */
   margin-top: 0; /* pas besoin d'ajuster si en flux normal */
+}
+
+
+/* ========= Layout Containers ========= */
+.container{
+  width:min(1100px, 92vw);
+  margin-inline:auto;
 }
 
 
