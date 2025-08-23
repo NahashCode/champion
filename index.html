@@ -1,386 +1,186 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>PSG Champion d'Europe !</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
-  
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    /* --- Bouton Ambiance --- */
-   #playChant {
-      background: linear-gradient(135deg, #e30613, #1d5fc1);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: bold;
-      font-size: 0.95rem;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      transition: all 0.25s ease-in-out;
-      position: fixed;
-      top: 4rem; /* en dessous de la marquee et du header */
-      left: 1rem;
-      z-index: 1000;
-    }
-
-    #playChant:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    }
-
-    #playChant:active {
-      transform: scale(0.97);
-    }
-
-    /* --- Structure principale --- */
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background: linear-gradient(167deg, #00172a 0%, #1d5fc1 45%, #e4e4e4 100%);
-      font-family: 'Roboto Slab', serif;
-      color: #fff;
-    }
-
-    /* --- Bandeau déroulant fixé en haut --- */
-    .marquee {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: #ff0000;
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.3rem;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      z-index: 9999;
-      padding: 0.5rem 0;
-      text-align: center;
-    }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 15s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* --- En-tête --- */
-    header {
-      background: #e30613;
-      font-family: 'Montserrat', sans-serif;
-      color: #fff;
-      font-size: 2.7rem;
-      text-shadow: 0 2px 16px #00172a80;
-      text-align: center;
-      padding: 3.8rem 1rem 1rem 1rem; /* espace pour ne pas chevaucher la marquee */
-      letter-spacing: 2px;
-    }
-
-    /* --- Coupe animée --- */
-    .trophy {
-      margin: 1.5rem auto 0 auto;
-      width: 130px;
-      height: 140px;
-      animation: trophy-bounce 2s infinite;
-      filter: drop-shadow(0 6px 28px #e4bc7490);
-      display: block;
-    }
-    @keyframes trophy-bounce {
-      0% {transform: translateY(0);}
-      50% {transform: translateY(-18px);}
-      100% {transform: translateY(0);}
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 1.2rem;
-      color: #ffc700;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: bold;
-      margin-bottom: 2.3rem;
-      margin-top: 0.7rem;
-      letter-spacing: 2px;
-      text-shadow: 0 0 4px #000;
-    }
-
-    /* --- Contenu principal extensible --- */
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2.5rem;
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      box-sizing: border-box;
-    }
-
-    /* --- Nouveau tableau de score style TV --- */
-    .scoreboard {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(145deg, #0a1633, #1b2b4a);
-      border-radius: 50px;
-      padding: 12px 25px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      margin: 10px auto;
-      width: fit-content;
-      gap: 50px;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .scoreboard .team {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-
-    .scoreboard .team.right {
-      flex-direction: row-reverse; /* logo à droite */
-    }
-
-    .scoreboard .logo {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-      
-    }
-
-    .scoreboard .score {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #ffd100;
-      text-shadow: 0 0 12px rgba(255, 209, 0, 0.7);
-    }
-
-    /* --- Cartes des buteurs --- */
-    .scorers {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.2rem;
-      width: 100%;
-    }
-    .goal-card {
-      flex: 0 0 220px;
-      background: #fff8daed;
-      border-radius: 16px;
-      padding: 1rem 1.3rem;
-      box-shadow: 0 2px 16px #19365760;
-      color: #d70636;
-      font-weight: bold;
-      font-size: 1.05rem;
-      text-align: center;
-      font-family: 'Roboto Slab', serif;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .goal-card:hover {
-      transform: translateY(-6px) scale(1.04);
-      box-shadow: 0 6px 22px #e3061390;
-    }
-    .goal-card a {
-      text-decoration: none;
-      color: #d70636;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .minute {
-      background: #1d5fc1;
-      color: #fff;
-      font-size: 0.8rem;
-      font-family: 'Montserrat', sans-serif;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      display: inline-block;
-      margin: 0 auto;
-      box-shadow: 0 2px 6px #0003;
-    }
-    .goal-icon {
-      font-size: 1.4rem;
-      margin-bottom: 0.3rem;
-    }
-
-    /* --- Footer collé en bas --- */
-    footer {
-      flex-shrink: 0;
-      text-align: center;
-      background: #0b2042;
-      color: #ffd100;
-      padding: 1.5rem 0;
-      font-size: 1.09rem;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    /* --- Confettis dynamiques --- */
-    .confetti {
-      position: fixed;
-      top: -22px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #fff, #e30613 57%, #1d5fc1 83%);
-      opacity: 0.93;
-      z-index: 100;
-      pointer-events: none;
-      animation: confetti-fall 3.3s cubic-bezier(0.8,0.2,0.2,1.2) forwards;
-    }
-    @keyframes confetti-fall {
-      100% { transform: translateY(110vh) rotate(230deg); opacity: 0.05; }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <title>I LOVE PSG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="marquee"><span>L'OM c'est une bande de nullos</span></div>
-  
-  <header>
-    PSG Champion d'Europe ! 🏆
+  <!-- Bandeau déroulant -->
+<div class="marquee">
+  <p>L'OM c'est une bande de nullos</p>
+</div>
+  <!-- Header pro, sobre -->
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <img src="psg.png" alt="PSG" class="brand-logo" />
+        <div class="brand-text">
+          <h1>PSG Champion d'Europe</h1>
+          <p class="tagline">Finale 2025 — Munich</p>
+        </div>
+      </div>
+
+      <!-- Contrôles à droite -->
+      <div class="header-actions">
+        <button id="playChant" class="btn-chant" aria-pressed="false" aria-label="Lire le chant du PSG">
+          <span class="icon-wave" aria-hidden="true"></span>
+          <span class="btn-text">Ambiance Parc</span>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <!-- Coupe des Champions réaliste -->
-  <svg class="trophy" viewBox="0 0 200 260">
-    <ellipse cx="100" cy="245" rx="60" ry="15" fill="#000" opacity="0.2"/>
-    <defs>
-      <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#f9e29c"/>
-        <stop offset="40%" stop-color="#d6b760"/>
-        <stop offset="100%" stop-color="#b4913d"/>
-      </linearGradient>
-    </defs>
-    <path d="M 50 70 Q 20 40 40 100 Q 45 160 100 200 Q 155 160 160 100 Q 180 40 150 70 Z"
-          fill="url(#gold)" stroke="#9a7a2b" stroke-width="4"/>
-    <path d="M 70 80 Q 55 110 80 150 Q 90 170 100 175"
-          stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
-    <path d="M 50 70 Q 5 40 40 140" stroke="#b4913d" stroke-width="8" fill="none"/>
-    <path d="M 150 70 Q 195 40 160 140" stroke="#b4913d" stroke-width="8" fill="none"/>
-    <rect x="70" y="200" width="60" height="20" rx="6" fill="url(#gold)" stroke="#9a7a2b" stroke-width="3"/>
-  </svg>
+  <!-- Section Scoreboard style TV -->
+  <section class="score-section">
+    <div class="container">
+      <div class="scoreboard" role="region" aria-label="Tableau de score">
+        <div class="team left">
+          <img src="psg.png" alt="Logo PSG" class="logo">
+          <span class="team-name">PSG</span>
+        </div>
 
-  <div class="subtitle">Vainqueur de la Ligue des Champions 2025</div>
+        <div class="score" aria-live="polite" aria-label="Score du match">5
+          <span class="dash" aria-hidden="true">–</span> 0
+        </div>
 
-  <main>
-    <button id="playChant">🔊 Ambiance Parc des Princes</button>
-
-    <!-- NOUVEAU TABLEAU DE SCORE -->
-    <div class="scoreboard">
-      <div class="team left">
-        <img src="psg.png" alt="PSG" class="logo">
-        <span class="team-name">PSG</span>
+        <div class="team right">
+          <img src="inter.png" alt="Logo Inter" class="logo">
+          <span class="team-name">Inter</span>
+        </div>
       </div>
-      <div class="score">5 - 0</div>
-      <div class="team right">
-        <span class="team-name">Inter</span>
-        <img src="inter.png" alt="Inter" class="logo">
+      <p class="meta">Sacré à Munich, le PSG remporte la 1ère Ligue des Champions de son histoire, inscrivant son nom au sommet du foot européen, permettant ainsi aux TSSR48 de se faire un peu moins rouster !</p>
+    </div>
+  </section>
+
+  <!-- Carrousel pleine largeur -->
+  <section class="carousel-section">
+    <div class="carousel" id="carousel" aria-roledescription="diaporama" aria-label="Moments de la finale">
+      <button class="nav prev" aria-label="Image précédente" data-dir="-1">‹</button>
+      <div class="slides">
+        <!-- Remplace les src par tes propres photos si besoin -->
+        <figure class="slide is-active">
+          <img src="images/psg1.jpeg" alt="Les joueurs du PSG soulèvent la coupe" />
+          <figcaption>Célébration avec la coupe 🏆</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="images/psg2.jpg" alt="Supporters du PSG en liesse" />
+          <figcaption>Le Parc en feu 🔥</figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="images/psg3.avif" alt="Action de but pendant la finale" />
+          <figcaption>L’action décisive ⚽</figcaption>
+        </figure>
+      </div>
+      <button class="nav next" aria-label="Image suivante" data-dir="1">›</button>
+
+      <div class="dots" role="tablist" aria-label="Navigation du diaporama">
+        <button class="dot is-active" role="tab" aria-selected="true" aria-controls="slide-1"></button>
+        <button class="dot" role="tab" aria-selected="false" aria-controls="slide-2"></button>
+        <button class="dot" role="tab" aria-selected="false" aria-controls="slide-3"></button>
       </div>
     </div>
+  </section>
 
+  <!-- Cartes des buts (highlights) -->
+  <main class="container main-content">
+    <h2 class="section-title">Les buts</h2>
     <section class="scorers">
-      <div class="goal-card">
-        <a href="https://youtu.be/-Hf2n3S3Rew?t=12" target="_blank">
-          <div class="goal-icon">⚽</div>
-          Achraf Hakimi
-          <span class="minute">12e</span>
+      <article class="goal-card">
+        <a href="https://youtu.be/-Hf2n3S3Rew?t=12" target="_blank" rel="noopener">
+          <div class="goal-head">
+            <span class="pill minute">12e</span>
+            <span class="pill type">⚽ But</span>
+          </div>
+          <h3 class="goal-title">Achraf Hakimi</h3>
+          <p class="goal-desc">Frappe croisée imparable côté droit.</p>
         </a>
-      </div>
-      <div class="goal-card">
-        <a href="https://www.youtube.com/shorts/ZX_qmCorRGk" target="_blank">
-          <div class="goal-icon">⚽</div>
-          Désiré Doué
-          <span class="minute">20e</span>
+      </article>
+
+      <article class="goal-card">
+        <a href="https://www.youtube.com/shorts/ZX_qmCorRGk" target="_blank" rel="noopener">
+          <div class="goal-head">
+            <span class="pill minute">20e</span>
+            <span class="pill type">⚽ But</span>
+          </div>
+          <h3 class="goal-title">Désiré Doué</h3>
+          <p class="goal-desc">Une percée plein axe, finition clinique.</p>
         </a>
-      </div>
-      <div class="goal-card">
-        <a href="https://youtu.be/hBI-DHHspvo?t=11" target="_blank">
-          <div class="goal-icon">⚽</div>
-          Désiré Doué
-          <span class="minute">63e</span>
+      </article>
+
+      <article class="goal-card">
+        <a href="https://youtu.be/hBI-DHHspvo?t=11" target="_blank" rel="noopener">
+          <div class="goal-head">
+            <span class="pill minute">63e</span>
+            <span class="pill type">⚽ But</span>
+          </div>
+          <h3 class="goal-title">Désiré Doué</h3>
+          <p class="goal-desc">Doublé ! Reprise en une touche.</p>
         </a>
-      </div>
-      <div class="goal-card">
-        <a href="https://www.youtube.com/shorts/IfTdvDf5d18" target="_blank">
-          <div class="goal-icon">⚽</div>
-          Khvicha Kvaratskhelia
-          <span class="minute">73e</span>
+      </article>
+
+      <article class="goal-card">
+        <a href="https://www.youtube.com/shorts/IfTdvDf5d18" target="_blank" rel="noopener">
+          <div class="goal-head">
+            <span class="pill minute">73e</span>
+            <span class="pill type">⚽ But</span>
+          </div>
+          <h3 class="goal-title">Khvicha Kvaratskhelia</h3>
+          <p class="goal-desc">Dribble court et frappe enroulée.</p>
         </a>
-      </div>
-      <div class="goal-card">
-        <a href="https://www.youtube.com/shorts/bornjf_t8C8" target="_blank">
-          <div class="goal-icon">⚽</div>
-          Senny Mayulu
-          <span class="minute">87e</span>
+      </article>
+
+      <article class="goal-card">
+        <a href="https://www.youtube.com/shorts/bornjf_t8C8" target="_blank" rel="noopener">
+          <div class="goal-head">
+            <span class="pill minute">87e</span>
+            <span class="pill type">⚽ But</span>
+          </div>
+          <h3 class="goal-title">Senny Mayulu</h3>
+          <p class="goal-desc">Conclusion d’un superbe mouvement collectif.</p>
         </a>
-      </div>
+      </article>
     </section>
-    
-    <div>
-      <em>Sacré à Munich, le PSG remporte la 1ère Ligue des Champions de son histoire, inscrivant son nom au sommet du foot européen, permettant ainsi aux TSSR48 de se faire un peu moins rouster !</em>
-    </div>
+
+    <!-- Trophée en bas de page -->
+    <section class="trophy-wrap" aria-hidden="true">
+      <svg class="trophy" viewBox="0 0 200 260">
+        <ellipse cx="100" cy="245" rx="60" ry="15" fill="#000" opacity="0.18"/>
+        <defs>
+          <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f9e29c"/>
+            <stop offset="40%" stop-color="#d6b760"/>
+            <stop offset="100%" stop-color="#b4913d"/>
+          </linearGradient>
+          <radialGradient id="shine" cx="50%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <path d="M 50 70 Q 20 40 40 100 Q 45 160 100 200 Q 155 160 160 100 Q 180 40 150 70 Z"
+              fill="url(#gold)" stroke="#9a7a2b" stroke-width="4"/>
+        <path d="M 70 80 Q 55 110 80 150 Q 90 170 100 175"
+              stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+        <path d="M 50 70 Q 5 40 40 140" stroke="#b4913d" stroke-width="8" fill="none"/>
+        <path d="M 150 70 Q 195 40 160 140" stroke="#b4913d" stroke-width="8" fill="none"/>
+        <rect x="70" y="200" width="60" height="20" rx="6" fill="url(#gold)" stroke="#9a7a2b" stroke-width="3"/>
+        <ellipse cx="100" cy="120" rx="70" ry="95" fill="url(#shine)"/>
+      </svg>
+    </section>
   </main>
 
-  <footer>
-    Paris Saint-Germain · Finale du 31 mai 2025 · #MonPrénom #ÇaCliquote #LaRouste
+  <footer class="site-footer">
+    <div class="container">
+      <p>#ÇaCliquote #LaRouste #PourCeuxQuiViendrontAprès</p>
+      <small>© 2025 TSSR48 — Fait avec ♥ par MonPrénom</small>
+    </div>
   </footer>
-  
-  <!-- Script Confettis dynamiques -->
-  <script>
-    function createConfetti() {
-      const conf = document.createElement('div');
-      conf.className = 'confetti';
-      conf.style.left = Math.random() * 100 + 'vw';
-      conf.style.background = `linear-gradient(
-        135deg,
-        #fff ${~~(Math.random()*35+35)}%,
-        #e30613 ${~~(Math.random()*43+28)}%,
-        #1d5fc1 83%
-      )`;
-      conf.style.animationDuration = `${2.8 + 0.75*Math.random()}s`;
-      document.body.appendChild(conf);
-      setTimeout(() => conf.remove(), 3500);
-    }
-    setInterval(createConfetti, 130);
-    for(let i=0;i<23;i++) setTimeout(createConfetti,80*i);
-  </script>
 
-  <!-- Script lecteur audio -->
-  <script>
-    const audio = new Audio("chant.m4a");
-    let playing = false;
-
-    document.getElementById("playChant").onclick = () => {
-      if (!playing) {
-        audio.play();
-        document.getElementById("playChant").innerText = "⏸️ Stopper le chant";
-      } else {
-        audio.pause();
-        audio.currentTime = 0;
-        document.getElementById("playChant").innerText = "🔊 Ambiance Parc des Princes";
-      }
-      playing = !playing;
-    };
-  </script>
+  <!-- Script -->
+  <script src="script.js"></script>
 </body>
 </html>
