@@ -22,7 +22,7 @@ function stopChant(){
   audio.pause();
   isPlaying = false;
   btnChant.setAttribute('aria-pressed', 'false');
-  btnChant.querySelector('.btn-text')?.replaceChildren(document.createTextNode('Ambiance Parc'));
+  btnChant.querySelector('.btn-text')?.replaceChildren(document.createTextNode('Ambiance Parc des Princes'));
 }
 
 /* Stop si l’utilisateur met sur pause ailleurs (UI navigateur) */
